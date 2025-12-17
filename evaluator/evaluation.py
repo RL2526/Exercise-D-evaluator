@@ -12,7 +12,7 @@ import os
 from pathlib import Path
 
 import sys
-sys.path.append("/submission") 
+sys.path.append("../submission") 
 from submission.agent import *  
 from submission.environment import SysadminEnv, CIRCLE, CROSS, EMPTY, get_opponent_policies
 from submission.opponent_policies import *  
