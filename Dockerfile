@@ -38,4 +38,4 @@ ENV PYTHONUNBUFFERED=1 \
 # 6) Default command:
 # This is what your GitHub Action will run in docker:
 #   docker run -v "$PWD:/submission:ro" -v "$PWD/out:/out" exd-eval
-CMD ["python", "-m", "evaluator.evaluate", "--submission", "/submission", "--out", "/out/result.json"]
+CMD ["python", "-m", "evaluator.evaluation", "--submission", "/submission", "--out", "/out/result.json"]
