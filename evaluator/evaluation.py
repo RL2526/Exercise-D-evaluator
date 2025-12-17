@@ -16,7 +16,6 @@ sys.path.append("/submission")
 from agent import *  
 from environment import SysadminEnv, CIRCLE, CROSS, EMPTY, get_opponent_policies
 
-
 # load opponent policies
 opponent_policies = get_opponent_policies()
 
