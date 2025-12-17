@@ -9,3 +9,4 @@ __pycache__/
 **/agent.py
 **/environment.py
 **/opponent_policies/.py
+/Opponent_Policies/
