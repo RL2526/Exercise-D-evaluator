@@ -1,0 +1,30 @@
+[
+    {
+        "opponent_policy": 1,
+        "wins": 402,
+        "draws": 2,
+        "looses": 96,
+        "average_return": 0.612
+    },
+    {
+        "opponent_policy": 2,
+        "wins": 427,
+        "draws": 5,
+        "looses": 68,
+        "average_return": 0.718
+    },
+    {
+        "opponent_policy": 3,
+        "wins": 418,
+        "draws": 12,
+        "looses": 70,
+        "average_return": 0.696
+    },
+    {
+        "opponent_policy": 4,
+        "wins": 412,
+        "draws": 11,
+        "looses": 77,
+        "average_return": 0.67
+    }
+]
