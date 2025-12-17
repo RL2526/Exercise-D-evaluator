@@ -1,0 +1,11 @@
+.vscode/
+*.egg-info/
+*__.egg__
+__pycache__/
+*.py[cod]
+.DS_Store
+*.egg
+.github
+**/agent.py
+**/environment.py
+**/opponent_policies/.py
