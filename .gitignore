@@ -8,4 +8,4 @@ __pycache__/
 .github
 **/agent.py
 **/environment.py
-**opponent_policies/.py
+**/opponent_policies/.py

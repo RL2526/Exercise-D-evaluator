@@ -85,11 +85,11 @@ def evaluate():
             "average_return": average_return
         })
 
-    script_dir = Path(__file__).parent          # folder where the script is
-    file_path = script_dir.parent / 'out' / 'results.json'  # results.json inside 'out'
-    file_path.parent.mkdir(parents=True, exist_ok=True)  # create 'out' folder if it doesn't exist
+    output_dir = "/out"
+    os.makedirs(output_dir, exist_ok=True)
 
-    with open(file_path, "w") as f:
+    output_file = os.path.join(output_dir, "result.json")
+    with open(output_file, "w") as f:
         json.dump(results, f, indent=4)
 
 if __name__ == "__main__":
