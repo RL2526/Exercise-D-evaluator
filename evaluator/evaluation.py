@@ -41,7 +41,7 @@ def evaluate_policy(weights):
 
     for episode in range(500):
         
-        state = env.reset()[0]
+        state = env.reset(seed=42)[0]
         done = False
         
         while not done:
