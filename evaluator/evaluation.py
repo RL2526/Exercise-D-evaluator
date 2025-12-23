@@ -16,9 +16,9 @@ from pathlib import Path
 
 import sys
 sys.path.append("../submission") 
-from submission.agent import *  
-from submission.environment import SysadminEnv, CIRCLE, CROSS, EMPTY, get_opponent_policies
-from submission.opponent_policies import *  
+
+from environment import  SysadminEnv, CIRCLE, CROSS, EMPTY, get_opponent_policies
+from opponent_policies import *
 
 # load opponent policies
 opponent_policies = get_opponent_policies()
@@ -30,7 +30,7 @@ from pathlib import Path
 gym.register("Sysadmin-ED", partial(SysadminEnv))
 env = gym.make("Sysadmin-ED")
 
-def evaluate_policy(weights):
+def evaluate_policy(weights, agent_policy):
     """
     Evaluates the agent's policy described by the learned weights by simulating the given number of episodes. 
     Returns the overall number of wins, draws, looses, and the statistical mean of the episode returns.
@@ -82,7 +82,7 @@ def sign_data(data: str) -> tuple[str, str]:
     
     return signature_hex
 
-def evaluate():
+def evaluate(training_algorithm_fn, agent_policy_fn):
     # Policy testing
     training_episodes = 5000 # Number of training episodes
     test_runs = 5 # Number of test runs
@@ -93,12 +93,12 @@ def evaluate():
     for i in range(4):
         print(f"Opponent Policy: {i+1}")
         env.set_opponent_policy = opponent_policies[i]
-        weights = training_algorithm(training_episodes)
+        weights = training_algorithm_fn(training_episodes)
 
         print(f"Test Run: {i}")
         env = gym.make("Sysadmin-ED") 
         
-        wins, draws, looses, average_return = evaluate_policy(weights) # evaluate the learned policy
+        wins, draws, looses, average_return = evaluate_policy(weights, agent_policy_fn) # evaluate the learned policy
         print(f"Wins: {wins}, Draws: {draws}, Looses: {looses}, Average Return: {average_return}") # print results of the current test run
 
         # Append results
@@ -109,16 +109,7 @@ def evaluate():
             "looses": looses,
             "average_return": average_return
         })
-    data=json.dumps(results, indent = 4)
-    signature = sign_data(data)
-    results = {"result": data, "signature": signature}
-
-    output_dir = "/out"
-    os.makedirs(output_dir, exist_ok=True)
-
-    output_file = os.path.join(output_dir, "result.json")
-    with open(output_file, "w") as f:
-        json.dump(results, f, indent=4)
+    return results
 
 if __name__ == "__main__":
     evaluate()

@@ -1,4 +1,4 @@
- # Dockerfile for exercise-d-evaluator
+# Dockerfile for exercise-d-evaluator
 # Builds a container that:
 #   - contains your env, opponents, and evaluator code
 #   - expects:
@@ -12,8 +12,8 @@ FROM python:3.10-slim
 # 1) System setup (optional but usually useful for RL / scientific Python)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        build-essential \
-        git && \
+    build-essential \
+    git && \
     rm -rf /var/lib/apt/lists/*
 
 # 2) Workdir inside the container
@@ -38,4 +38,4 @@ ENV PYTHONUNBUFFERED=1 \
 # 6) Default command:
 # This is what your GitHub Action will run in docker:
 #   docker run -v "$PWD:/submission:ro" -v "$PWD/out:/out" exd-eval
-CMD ["python", "-m", "evaluator.evaluation", "--submission", "/submission", "--out", "/out/result.json"]
+CMD ["python", "-m", "evaluator.main"]

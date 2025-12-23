@@ -7,6 +7,3 @@ __pycache__/
 *.egg
 .github
 **/agent.py
-**/environment.py
-**/opponent_policies/.py
-/Opponent_Policies/
