@@ -1,4 +1,4 @@
-from evaluation import evaluate
+from .evaluation import evaluate
 import importlib.util
 import sys
 from pathlib import Path
