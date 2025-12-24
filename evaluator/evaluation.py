@@ -13,8 +13,8 @@ from pathlib import Path
 import sys
 sys.path.append("../submission") 
 
-from environment import  SysadminEnv, CIRCLE, CROSS, EMPTY, get_opponent_policies
-from opponent_policies import *
+from .environment import  SysadminEnv, CIRCLE, CROSS, EMPTY, get_opponent_policies
+from .opponent_policies import *
 
 # load opponent policies
 opponent_policies = get_opponent_policies()
