@@ -8,7 +8,7 @@ import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
 
-from .opponent_policies import get_opponent_policies
+from opponent_policies import get_opponent_policies
 
 import json
 from pathlib import Path
