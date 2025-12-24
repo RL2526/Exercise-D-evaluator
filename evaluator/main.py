@@ -43,11 +43,14 @@ if __name__ == "__main__":
 
 
     for file in folder.glob("*.py"):
-        name = file.stem
+        # sicheren Modulnamen erzeugen (kein -, keine Sonderzeichen)
+        safe_name = "agent_" + file.stem.replace("-", "_")
 
         try:
-            module = importlib.import_module(name)   # ← JETZT korrekt
-
+            spec = importlib.util.spec_from_file_location(safe_name, file)
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[safe_name] = module
+            spec.loader.exec_module(module)
             training_fn = module.training_algorithm
             agent_policy_fn = module.agent_policy
             result = run_student(training_fn, agent_policy_fn)
