@@ -55,7 +55,7 @@ if __name__ == "__main__":
             agent_policy_fn = module.agent_policy
             result = run_student(training_fn, agent_policy_fn)
             with open(f"/out/{file.stem}.json", "w")as f:
-                json.dump(result)
+                json.dump(result, f)
 
         except Exception as e:
             print(f"⚠️ Konnte {file.name} nicht laden:")
