@@ -5,29 +5,10 @@ from pathlib import Path
 import multiprocessing as mp
 import traceback
 import json
+import traceback
 
 TIMEOUT = 300
 
-def load_all_student_functions(folder_path, func_name="solve"):
-    folder = Path(folder_path)
-    functions = {}
-
-    for file in folder.glob("*.py"):
-        module_name = f"student_{file.stem}_{abs(hash(file))}"
-
-        try:
-            spec = importlib.util.spec_from_file_location(module_name, file)
-            module = importlib.util.module_from_spec(spec)
-            sys.modules[module_name] = module
-            spec.loader.exec_module(module)
-
-            fn = getattr(module, func_name)
-            functions[file.stem] = fn   # key = filename ohne .py
-
-        except Exception as e:
-            print(f"⚠️ Konnte {file.name} nicht laden: {e}")
-
-    return functions
 
 def _worker(training_fn, agent_policy_fn, q):
     try:
@@ -74,4 +55,5 @@ if __name__ == "__main__":
                 json.dump(result)
 
         except Exception as e:
-            print(f"⚠️ Konnte {file.name} nicht laden: {e}")
+            print(f"⚠️ Konnte {file.name} nicht laden:")
+            traceback.print_exc()
