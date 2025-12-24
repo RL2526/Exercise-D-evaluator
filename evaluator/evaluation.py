@@ -1,7 +1,3 @@
-# Necessary Imports
-
-from cryptography.hazmat.primitives import serialization, hashes
-from cryptography.hazmat.primitives.asymmetric import ed25519
 
 from typing import Any, Dict, Callable
 from dataclasses import dataclass
@@ -61,27 +57,6 @@ def evaluate_policy(weights, agent_policy):
     return wins, draws, looses, np.mean(returns)
 
 
-def sign_data(data: str) -> tuple[str, str]:
-    """
-    Signiert Daten mit dem privaten Schlüssel.
-    Gibt signierte Daten + Signatur zurück.
-    """
-    # Private Key laden
-    with open(f"/input_dir/private.pem", "rb") as f:
-        private_key = serialization.load_pem_private_key(
-            f.read(),
-            password=None
-        )
-    
-    # Daten signieren
-    message = data.encode() if isinstance(data, str) else data
-    signature = private_key.sign(message)
-    
-    # Signatur in Hex-Format für leichte Speicherung/Weitergabe
-    signature_hex = signature.hex()
-    
-    return signature_hex
-
 def evaluate(training_algorithm_fn, agent_policy_fn):
     # Policy testing
     training_episodes = 5000 # Number of training episodes
@@ -110,6 +85,3 @@ def evaluate(training_algorithm_fn, agent_policy_fn):
             "average_return": average_return
         })
     return results
-
-if __name__ == "__main__":
-    evaluate()
