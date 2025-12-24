@@ -54,8 +54,11 @@ if __name__ == "__main__":
             training_fn = module.training_algorithm
             agent_policy_fn = module.agent_policy
             result = run_student(training_fn, agent_policy_fn)
+            if not result["ok"]:
+                print(f"Result of file {file.stem} was erroneous") # timeout, error etc can be handled here
+                continue
             with open(f"/out/{file.stem}.json", "w")as f:
-                json.dump(result, f)
+                json.dump(result["result"], f)
 
         except Exception as e:
             print(f"⚠️ Konnte {file.name} nicht laden:")
