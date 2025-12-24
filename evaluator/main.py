@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, "/agents") # before all other imports, do not change
+
 from .evaluation import evaluate
 import importlib.util
 import sys
@@ -40,16 +43,13 @@ if __name__ == "__main__":
 
 
     for file in folder.glob("*.py"):
-        module_name = f"student_{file.stem}_{abs(hash(file))}"
+        name = file.stem
 
         try:
-            spec = importlib.util.spec_from_file_location(module_name, file)
-            module = importlib.util.module_from_spec(spec)
-            sys.modules[module_name] = module
-            spec.loader.exec_module(module)
+            module = importlib.import_module(name)   # ← JETZT korrekt
 
-            training_fn = getattr(module, "training_algorithm")
-            agent_policy_fn = getattr(module, "agent_policy")
+            training_fn = module.training_algorithm
+            agent_policy_fn = module.agent_policy
             result = run_student(training_fn, agent_policy_fn)
             with open(f"/out/{file.stem}.json", "w")as f:
                 json.dump(result)
