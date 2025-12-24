@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0, "/agents") # before all other imports, do not change
-
+sys.path.insert(0, "/app/evaluator")
 from .evaluation import evaluate
 import importlib.util
 import sys
