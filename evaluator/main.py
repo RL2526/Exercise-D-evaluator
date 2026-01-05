@@ -10,7 +10,7 @@ import traceback
 import json
 import traceback
 
-TIMEOUT = 300
+TIMEOUT = 100
 
 
 def _worker(training_fn, agent_policy_fn, q):
@@ -64,7 +64,8 @@ if __name__ == "__main__":
                         "looses": 0,
                         "average_return": 0
                     })
-                json.dump(result, f)
+                with open(f"/out/{file.stem}.json", "w")as f:
+                    json.dump(result, f)
                 continue
             with open(f"/out/{file.stem}.json", "w")as f:
                 json.dump(result["result"], f)
