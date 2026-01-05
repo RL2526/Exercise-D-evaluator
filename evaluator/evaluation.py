@@ -68,7 +68,8 @@ def evaluate(training_algorithm_fn, agent_policy_fn):
     for i in range(4):
         print(f"Opponent Policy: {i+1}")
         env.set_opponent_policy = opponent_policies[i]
-        weights = training_algorithm_fn(training_episodes)
+        seed = 1337
+        weights = training_algorithm_fn(training_episodes, seed)
 
         print(f"Test Run: {i}")
         env = gym.make("Sysadmin-ED") 
