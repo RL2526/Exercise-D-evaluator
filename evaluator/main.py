@@ -36,7 +36,6 @@ def run_student(training_fn, agent_policy_fn):
     status, payload = q.get()
     return {"ok": status == "ok", "result": payload if status == "ok" else None, "error": None if status == "ok" else payload}
 
-
 if __name__ == "__main__":
     folder_path = "/agents"
     folder = Path(folder_path)
@@ -56,6 +55,16 @@ if __name__ == "__main__":
             result = run_student(training_fn, agent_policy_fn)
             if not result["ok"]:
                 print(f"Result of file {file.stem} was erroneous") # timeout, error etc can be handled here
+                results = []
+                for i in range(4):
+                    results.append({
+                        "opponent_policy": i+1,
+                        "wins": 0,
+                        "draws": 0,
+                        "looses": 0,
+                        "average_return": 0
+                    })
+                json.dump(result["result"], f)
                 continue
             with open(f"/out/{file.stem}.json", "w")as f:
                 json.dump(result["result"], f)
