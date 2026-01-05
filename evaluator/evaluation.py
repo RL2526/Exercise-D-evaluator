@@ -67,12 +67,12 @@ def evaluate(training_algorithm_fn, agent_policy_fn):
 
     for i in range(4):
         print(f"Opponent Policy: {i+1}")
+        env = gym.make("Sysadmin-ED") 
         env.set_opponent_policy(opponent_policies[i])
         seed = 1337
         weights = training_algorithm_fn(training_episodes, seed)
 
         print(f"Test Run: {i}")
-        env = gym.make("Sysadmin-ED") 
         
         wins, draws, looses, average_return = evaluate_policy(weights, agent_policy_fn) # evaluate the learned policy
         print(f"Wins: {wins}, Draws: {draws}, Looses: {looses}, Average Return: {average_return}") # print results of the current test run
