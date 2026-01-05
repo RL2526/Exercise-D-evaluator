@@ -36,8 +36,8 @@ def evaluate_policy(weights, agent_policy):
     wins, draws, looses = 0,0,0
 
     for episode in range(500):
-        
-        state = env.reset(seed=42)[0]
+        np.random.seed(42 + episode)
+        state = env.reset(seed=42 + episode)[0]
         done = False
         
         while not done:
