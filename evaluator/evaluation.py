@@ -68,6 +68,7 @@ def evaluate(training_algorithm_fn, agent_policy_fn):
 
     for opponent_policy_index in range(4):
         successes = 0
+        print(f"opponent policy": {opponent_policy_index})
         for test_run_index in range(test_runs):
             env = gym.make("Sysadmin-ED") 
             weights = training_algorithm_fn(training_episodes, opponent_policy_index) # learn the weights via function approximation learning
