@@ -10,7 +10,7 @@ import traceback
 import json
 import traceback
 
-TIMEOUT = 180
+TIMEOUT = 300
 
 
 def _worker(training_fn, agent_policy_fn, q):
