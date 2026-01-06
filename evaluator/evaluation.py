@@ -26,7 +26,7 @@ from pathlib import Path
 gym.register("Sysadmin-ED", partial(SysadminEnv))
 env = gym.make("Sysadmin-ED")
 
-def evaluate_policy(weights, agent_policy):
+def evaluate_policy(weights, test_episodes, agent_policy, opponent_policy_index):
     """
     Evaluates the agent's policy described by the learned weights by simulating the given number of episodes. 
     Returns the overall number of wins, draws, looses, and the statistical mean of the episode returns.
@@ -35,9 +35,9 @@ def evaluate_policy(weights, agent_policy):
     returns = []
     wins, draws, looses = 0,0,0
 
-    for episode in range(500):
-        np.random.seed(42 + episode)
-        state = env.reset(seed=42 + episode)[0]
+    for episode in range(test_episodes):
+        state = env.reset()[0]
+        env.set_opponent_policy(opponent_policies[opponent_policy_index])
         done = False
         
         while not done:
@@ -60,29 +60,35 @@ def evaluate_policy(weights, agent_policy):
 def evaluate(training_algorithm_fn, agent_policy_fn):
     # Policy testing
     training_episodes = 5000 # Number of training episodes
+    test_episodes = 100 
     test_runs = 5 # Number of test runs
 
     env = gym.make("Sysadmin-ED") 
     results = []
 
-    for i in range(4):
-        print(f"Opponent Policy: {i+1}")
-        env = gym.make("Sysadmin-ED") 
-        env.set_opponent_policy(opponent_policies[i])
-        seed = 1337
-        weights = training_algorithm_fn(training_episodes, seed)
-
-        print(f"Test Run: {i}")
-        
-        wins, draws, looses, average_return = evaluate_policy(weights, agent_policy_fn) # evaluate the learned policy
-        print(f"Wins: {wins}, Draws: {draws}, Looses: {looses}, Average Return: {average_return}") # print results of the current test run
+    for opponent_policy_index in range(4):
+        successes = 0
+        for test_run_index in range(test_runs):
+            env = gym.make("Sysadmin-ED") 
+            weights = training_algorithm_fn(training_episodes, opponent_policy_index) # learn the weights via function approximation learning
+            
+            # Check that number of episodes is not exceeded
+            if env.get_reset_counter > training_episodes:
+                    raise RuntimeError(f"Exceeded maximal number of calls of reset function")
+            
+            wins, draws, looses, average_return = evaluate_policy(weights, test_episodes, agent_policy_fn, opponent_policy_index) # evaluate the learned policy
+            if average_return > 0.25:
+                successes += 1
+            print(f"Wins: {wins}, Draws: {draws}, Looses: {looses}, Average Return: {average_return}, Succeses: {successes}") # print results of the current test run
+        if successes >= test_runs-1:
+            beaten = True
+        else:
+            beaten = False
+        print(f"Opponent policy {opponent_policy_index+1} beaten: {beaten}")
 
         # Append results
         results.append({
-            "opponent_policy": i+1,
-            "wins": wins,
-            "draws": draws,
-            "looses": looses,
-            "average_return": average_return
+            "opponent_policy": opponent_policy_index+1,
+            "beaten": beaten
         })
     return results
