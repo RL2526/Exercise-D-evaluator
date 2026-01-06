@@ -10,7 +10,7 @@ import traceback
 import json
 import traceback
 
-TIMEOUT = 300
+TIMEOUT = 720
 
 
 def _worker(training_fn, agent_policy_fn, q):
@@ -54,7 +54,7 @@ if __name__ == "__main__":
             agent_policy_fn = module.agent_policy
             result = run_student(training_fn, agent_policy_fn)
             if not result["ok"]:
-                print(f"Result of file {file.stem} was erroneous") # timeout, error etc can be handled here
+                print(f"Result of file {file.stem} was erroneous or timeout occured.") # timeout, error etc can be handled here
                 result = []
                 for i in range(4):
                     result.append({
